@@ -11,14 +11,10 @@ int stringTurnNumber(char argv[]){
     int j,thistime=1;
     int goal=0;
     for(i=0;protection[i]!='\0';i++){
-        for(j=count-1-i;j>0;j--){
-            thistime*=10;
-        }
-        goal+=number[i]*thistime;
-        thistime=1;
+        goal=goal*10+number[i];//结果直接等于上一次结果*10+这一次数字  运用了递归的思想
     }
     return goal;
-}//好像还有更简单的逻辑
+}
 void turnNumber(int rule,char argv[]){
       int target=stringTurnNumber(argv);
         int i,number[100];
@@ -71,3 +67,11 @@ int main(int argc,char *argv[]){
     }
     return 0;
 }
+
+
+
+/*第一次报错：printf函数里不能换行写
+第二次报错：从右到左的逻辑错误
+第三次报错：strcmp相等的返回值是0
+对于从右至左拆解一串数字 可以采用递归的思想
+字符串变数字需要用字符减字符*/
