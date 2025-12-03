@@ -11,10 +11,10 @@ int main(){
     for(i=1;i<len;i++){
         if(str[j]!=str[i]){
             j++;
-            str[j]=str[i];  //j用来记录数据走到哪里了
+            str[j]=str[i];  //j用来记录数据走到哪里了  把不同的拿上来
         }
     }
-    str[j+1]='\0';
+    str[j+1]='\0'; //把最后裁掉
     puts(str);
     return 0;
 }
