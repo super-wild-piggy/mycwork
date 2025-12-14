@@ -8,48 +8,13 @@ int main(){
     scanf("%s",putin);
     int i,answer,place;
     for(i=0;i<8;i++){
-        switch(putin[i]){
-            case '1':
-            position[i]=1;
-            count[0]=1;
-            break;
-            case '2':
-            position[i]=2;
-            count[1]=1;
-            break;
-            case '3':
-            position[i]=3;
-            count[2]=1;
-            break;
-            case '4':
-            position[i]=4;
-            count[3]=1;
-            break;
-            case '5':
-            position[i]=5;
-            count[4]=1;
-            break;
-            case '6':
-            position[i]=6;
-            count[5]=1;
-            break;
-            case '7':
-            position[i]=7;
-            count[6]=1;
-            break;
-            case '8':
-            position[i]=8;
-            count[7]=1;
-            break;
-            case '9':
-            position[i]=9;
-            count[8]=1;
-            break;
-            case '*':
+       if(putin[i]>='1'&&putin[i]<='8'){
+            position[i]=putin[i]-'1'+1;
+            count[position[i]-1]=1;
+       }else if(putin[i]=='*'){
+            place=i;
             position[i]=0;
-            place=i;//记录*的位置
-            break;
-        }
+       }
     }
     for(i=0;i<8;i++){
         if(count[i]==0){
