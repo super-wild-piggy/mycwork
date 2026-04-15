@@ -29,42 +29,27 @@ void InsertLink(node_t *head,int data,int pos){
         te_pre=temp;
         temp=temp->next;
     }
-    if(temp!=NULL){
-        te_nex=temp;
-        te_pre=temp->last;
-        node_t *new=CreateNode(data);
-        te_pre->next=new;
-        new->last=te_pre;
-        new->next=te_nex;
-        te_nex->last=new;
-    }else{
-        node_t *new=CreateNode(data);
-        te_pre->next=new;
-        new->last=te_pre;
-    }
+    te_nex=temp;
+    te_pre=temp->last;
+    node_t *new=CreateNode(data);
+    te_pre->next=new;
+    new->last=te_pre;
+    new->next=te_nex;
+    te_nex->last=new;
 }
 
 void deleteLink(node_t *head,int pos){
     node_t *temp=head;
-    node_t *delete=NULL;
-    node_t *dele_pre=NULL;
-    node_t *dele_nex=NULL;
     node_t *pre=NULL;
+    node_t *nex=NULL;
     for(int i=0;i<pos;i++){
         pre=temp;
         temp=temp->next;
     }
-    if(temp->next!=NULL){
-        delete=temp;
-        dele_nex=temp->next;
-        dele_pre=temp->last;
-        free(delete);
-        dele_nex->last=dele_pre;
-        dele_pre->next=dele_nex;
-    }else{
-        free(temp);
-        pre->next=NULL;
-    }
+    nex=temp->next;
+    free(temp);
+    nex->last=pre;
+    pre->next=nex;
 }
 
 void freeLink(node_t *head){
@@ -79,7 +64,7 @@ void freeLink(node_t *head){
 
 void printLink(node_t *head){
     node_t *temp=head->next;
-    while(temp!=NULL){
+    while(temp!=head){
         printf("%d ",temp->data);
         temp=temp->next;
     }
@@ -155,8 +140,8 @@ void input(node_t *head){
 int main(){
     node_t *head=NULL;
     head=malloc(sizeof(node_t));
-    head->next=NULL;//第一个节点为头节点（空的）
-    head->last=NULL;
+    head->next=head;//第一个节点为头节点（空的）
+    head->last=head;
     input(head);
     freeLink(head);
     return 0;
