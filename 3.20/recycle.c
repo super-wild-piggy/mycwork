@@ -142,7 +142,24 @@ int main(){
     head=malloc(sizeof(node_t));
     head->next=head;//第一个节点为头节点（空的）
     head->last=head;
-    input(head);
+    int pos;
+    int data;
+    int type;
+    while(scanf("%d",&type)!=EOF){
+        if(type==0){
+            printLink(head);
+        }else if(type==1){
+            scanf("%d%d",&pos,&data);
+            InsertLink(head,data,pos);
+        }else if(type==2){
+            scanf("%d",&pos);
+            deleteLink(head,pos);
+        }else{
+            printf("模式错误\n");
+            return -1;
+        }
+    }
+
     freeLink(head);
     return 0;
 }
