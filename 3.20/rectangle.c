@@ -9,47 +9,26 @@ struct linknode{
 };
 typedef struct linknode LinkStNode;
 
-void push(LinkStNode **s,int data,int idx,LinkStNode **top,LinkStNode **top_prev){
-    if(*s==NULL){//若栈为空
-        LinkStNode *new=malloc(sizeof(LinkStNode));
-        new->height=data;
-        new->idx=idx;
-        *s=new;
-        *top=*s;
-        *top_prev=NULL;
-    }else{
+void push(LinkStNode *s,int data,int idx){
+    if(s->next==NULL){//栈为空
         LinkStNode *new=malloc(sizeof(LinkStNode));
         new->height=data;
         new->idx=idx;
         new->next=NULL;
-        (*top)->next=new;
-        *top_prev=*top;
-        *top=(*top)->next;
+        s->next=new;
+    }else{
+        LinkStNode *new=malloc(sizeof(LinkStNode));
+        new->height=data;
+        new->idx=idx;
+        new->next=s->next;
+        s->next=new;
     }
 }
 
-void pop(LinkStNode **s,LinkStNode **top,LinkStNode **top_prev){
-    if(*top_prev==NULL){
-        free(*top);
-        *top=NULL;
-        *s=NULL;
-    }else{
-        LinkStNode *temp=*s;
-        if(temp==*top_prev){
-            free(*top);
-            *top=*top_prev;
-            (*top)->next=NULL;
-            *top_prev=NULL;
-        }else{
-            while(temp->next!=*top_prev){
-                temp=temp->next;
-            }
-            free(*top);
-            *top=*top_prev;
-            (*top)->next=NULL;
-            *top_prev=temp;
-        }
-    }
+void pop(LinkStNode *s){
+    LinkStNode *delete=s->next;
+    s->next=delete->next;
+    free(delete);
 }
 
 int main(){
@@ -61,32 +40,32 @@ int main(){
     }
     rectangle_height[n]=0;
     LinkStNode *s=NULL;
-    LinkStNode *top=NULL;
-    LinkStNode *top_prev=NULL;
+    s=malloc(sizeof(LinkStNode));
+    s->next=NULL;//初始化栈
     int area;
     int max_area=0;
     int idx_left;//左边界
     int idx_right;//右边界
     for(int i=0;i<n+1;i++){
-        if(top==NULL){
-            push(&s,rectangle_height[i],i,&top,&top_prev);
-        }else if(rectangle_height[i]<top->height){
+        if(s->next==NULL){
+            push(s,rectangle_height[i],i);
+        }else if(rectangle_height[i]<s->next->height){
             //单调递增栈将要被破坏
             //此时计算面积
             idx_right=i;
-            if(top_prev!=NULL){
-                idx_left=top_prev->idx;
+            if(s->next->next!=NULL){
+                idx_left=s->next->next->idx;
             }else{//栈里只有一个元素 说明这个元素前面都比他大
                 idx_left=-1;
             }
-            area=top->height*(idx_right-idx_left-1);
+            area=s->next->height*(idx_right-idx_left-1);
             if(area>max_area){
                 max_area=area;
             }
             i--;
-            pop(&s,&top,&top_prev);
+            pop(s);
         }else{
-            push(&s,rectangle_height[i],i,&top,&top_prev);
+            push(s,rectangle_height[i],i);
         }
     }
     printf("%d",max_area);
